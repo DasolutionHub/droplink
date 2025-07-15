@@ -1,555 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DropLink - Share your live location with customers via WhatsApp in one click">
-    <meta name="theme-color" content="#2563eb">
-    <title>DropLink | Professional Location Sharing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #10b981;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --light-gray: #e2e8f0;
-            --danger: #ef4444;
-            --success: #25D366;
-            --border-radius: 12px;
-            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            color: var(--dark);
-            padding: 20px;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 10px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--primary);
-        }
-        
-        .logo i {
-            font-size: 2rem;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            font-weight: 500;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--gray);
-            transition: var(--transition);
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-        
-        .hero {
-            text-align: center;
-            margin: 30px 0 40px;
-        }
-        
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            line-height: 1.2;
-        }
-        
-        .hero p {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 25px;
-            color: var(--gray);
-        }
-        
-        .app-container {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        
-        .app-card {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 30px;
-            flex: 1;
-        }
-        
-        .app-card h2 {
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--light-gray);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .input-field {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        
-        .input-field:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-        }
-        
-        .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            padding: 14px 28px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-            width: 100%;
-            margin-top: 10px;
-        }
-        
-        .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .btn-whatsapp {
-            background: var(--success);
-        }
-        
-        .btn-whatsapp:hover {
-            background: #128C7E;
-        }
-        
-        .preview {
-            background: var(--light);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-top: 20px;
-            border-left: 4px solid var(--primary);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-        
-        .preview h3 {
-            margin-bottom: 15px;
-            color: var(--gray);
-        }
-        
-        .validation-message {
-            padding: 10px;
-            border-radius: var(--border-radius);
-            margin-top: 8px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .validation-success {
-            background: rgba(34, 197, 94, 0.15);
-            color: #166534;
-        }
-        
-        .validation-error {
-            background: rgba(239, 68, 68, 0.15);
-            color: #b91c1c;
-        }
-        
-        .whatsapp-button {
-            display: block;
-            width: 100%;
-            background: var(--success);
-            color: white;
-            text-align: center;
-            padding: 14px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-        }
-        
-        .whatsapp-button:hover {
-            background: #128C7E;
-            transform: translateY(-2px);
-        }
-        
-        .confirmation {
-            text-align: center;
-            margin-top: 15px;
-            font-weight: 600;
-            color: #166534;
-            opacity: 0;
-            transition: var(--transition);
-            animation: slideUp 0.5s ease forwards;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: auto;
-            color: var(--gray);
-            border-top: 1px solid var(--light-gray);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @media (max-width: 768px) {
-            .app-container {
-                flex-direction: column;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-        }
-    </style>
-    <!-- Add this before </body> -->
-<script>
-  // Register SW
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DropLink - Share your live location with customers via WhatsApp in one click">
+  <meta name="theme-color" content="#0f3e14">
+  <link rel="manifest" href="/manifest.json">
+  <title>DropLink | Professional Location Sharing</title>
 
-  // Install Prompt
-  let installPrompt;
-  const installBtn = document.createElement('button');
-  installBtn.textContent = 'Install App';
-  installBtn.classList.add('install-btn');
-  document.body.appendChild(installBtn);
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    installPrompt = e;
-    installBtn.style.display = 'block';
-  });
-
-  installBtn.addEventListener('click', () => {
-    if (!installPrompt) return;
-    installPrompt.prompt();
-    installPrompt = null;
-    installBtn.style.display = 'none';
-  });
-</script>
-
-<style>
-  .install-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    display: none;
-    z-index: 100;
-  }
-</style>
+  <style>
+    :root {
+      --bg-dark: #000;
+      --gradient-start: #001100;
+      --gradient-end: #004d00;
+      --primary: #00ff88;
+      --primary-light: #33ffaa;
+      --text-light: #e0e0e0;
+      --text-dark: #ccc;
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+    body {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    body::before {
+      content:'';
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background-image: radial-gradient(rgba(0,255,100,0.2) 1px, transparent 1px);
+      background-size:20px 20px;
+      pointer-events:none; z-index:0;
+    }
+    .container {
+      position:relative; z-index:1;
+      max-width:1000px; width:100%; margin:0 auto; padding:20px;
+    }
+    header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; }
+    .logo { display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.8rem; color:var(--primary); }
+    .nav-links { display:flex; gap:25px; }
+    .nav-links a { text-decoration:none; color:var(--text-dark); font-weight:500; transition:var(--transition); }
+    .nav-links a:hover { color:var(--primary-light); }
+    .hero { text-align:center; margin:40px 0; }
+    .hero h1 {
+      font-size:3rem; line-height:1.2;
+      background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .hero p { font-size:1.1rem; color:var(--text-dark); max-width:700px; margin:15px auto; }
+    .app-container { display:flex; gap:30px; flex-wrap:wrap; }
+    .app-card {
+      background:rgba(0,0,0,0.6); border-radius:var(--border-radius);
+      padding:30px; flex:1 1 45%; box-shadow:0 4px 20px rgba(0,0,0,0.8); transition:var(--transition);
+    }
+    .app-card:hover { transform:translateY(-5px); box-shadow:0 8px 30px rgba(0,0,0,1); }
+    .app-card h2 { color:var(--primary); margin-bottom:20px; display:flex; align-items:center; gap:10px; font-weight:600; }
+    .input-group { margin-bottom:20px; }
+    .input-group label { display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:500; color:var(--text-light); }
+    .input-field {
+      width:100%; padding:14px; border:1px solid rgba(255,255,255,0.2);
+      background:rgba(255,255,255,0.05); color:var(--text-light);
+      border-radius:var(--border-radius); transition:var(--transition);
+    }
+    .input-field:focus { border-color:var(--primary); outline:none; background:rgba(255,255,255,0.1); }
+    .btn {
+      background:var(--primary); color:#000; padding:14px 28px; font-size:1.1rem;
+      font-weight:600; border:none; border-radius:var(--border-radius); cursor:pointer; transition:var(--transition);
+    }
+    .btn:hover { background:var(--primary-light); transform:translateY(-2px); }
+    .btn i { margin-right:8px; }
+    .preview {
+      background:rgba(255,255,255,0.05); border-left:4px solid var(--primary);
+      padding:20px; border-radius:var(--border-radius); color:var(--text-light);
+    }
+    .whatsapp-button {
+      display:block; text-align:center; padding:14px; margin-top:20px; font-weight:600;
+      background:var(--primary); color:#000; text-decoration:none; border-radius:var(--border-radius); transition:var(--transition);
+    }
+    .whatsapp-button:hover { background:var(--primary-light); transform:translateY(-2px); }
+    .validation-message { font-size:0.9rem; display:flex; align-items:center; gap:8px; }
+    .validation-success { color:#22c55e; }
+    .validation-error { color:#ef4444; }
+    .confirmation { margin-top:10px; font-weight:600; color:#22c55e; }
+    footer { text-align:center; padding:30px 0; margin-top:auto; color:var(--text-dark); font-size:0.9rem; }
+    @media(max-width:768px){ .app-card{ flex:1 1 100%; } .nav-links{ display:none; } }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-paper-plane"></i>
-                <span>DropLink</span>
-            </div>
-            <nav class="nav-links">
-                <a href="#"><i class="fas fa-home"></i> Home</a>
-                <a href="#"><i class="fas fa-question-circle"></i> How It Works</a>
-                <a href="#"><i class="fas fa-dollar-sign"></i> Pricing</a>
-                <a href="#"><i class="fas fa-user"></i> Login</a>
-            </nav>
-        </header>
-        
-        <section class="hero">
-            <h1>Share Your Live Location in One Click</h1>
-            <p>DropLink helps logistics riders quickly share their Google Maps location with customers via WhatsApp, improving delivery efficiency and customer experience.</p>
-        </section>
-        
-        <div class="app-container">
-            <div class="app-card">
-                <h2><i class="fas fa-map-marker-alt"></i> Delivery Information</h2>
-                
-                <div class="input-group">
-                    <label for="location"><i class="fas fa-link"></i> Google Maps Live Location</label>
-                    <input type="text" id="location" class="input-field" placeholder="https://maps.app.goo.gl/...">
-                    <div id="locationValidation" class="validation-message"></div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="customerName"><i class="fas fa-user"></i> Customer Name</label>
-                    <input type="text" id="customerName" class="input-field" placeholder="e.g. John">
-                </div>
-                
-                <div class="input-group">
-                    <label for="customerPhone"><i class="fas fa-phone"></i> Customer Phone Number</label>
-                    <input type="tel" id="customerPhone" class="input-field" placeholder="e.g. 09012345678">
-                </div>
-                
-                <div class="input-group">
-                    <label for="riderName"><i class="fas fa-motorcycle"></i> Rider's Name</label>
-                    <input type="text" id="riderName" class="input-field" placeholder="e.g. Musa">
-                </div>
-                
-                <button id="generateBtn" class="btn">
-                    <i class="fas fa-paper-plane"></i> Generate WhatsApp Message
-                </button>
-            </div>
-            
-            <div class="app-card">
-                <h2><i class="fas fa-eye"></i> Message Preview</h2>
-                <div class="preview">
-                    <h3><i class="fas fa-comment"></i> Your customer will receive:</h3>
-                    <div id="messagePreview" style="white-space: pre-line;">
-                        📦 Hello [Customer Name], your delivery is on the way!
-                        🚴 Track the rider live here: [Your Google Maps link]
-                        👤 Rider: [Rider Name]
-                        🙏 Powered by DropLink
-                    </div>
-                </div>
-                
-                <div id="whatsappButtonContainer" style="display: none;">
-                    <a id="whatsappButton" class="whatsapp-button">
-                        <i class="fab fa-whatsapp"></i> Open WhatsApp to Send
-                    </a>
-                    <div id="confirmation" class="confirmation">
-                        <i class="fas fa-check-circle"></i> Sent to WhatsApp!
-                    </div>
-                </div>
-                
-                <div style="margin-top: 30px;">
-                    <h2><i class="fas fa-bolt"></i> How It Works</h2>
-                    <ol style="padding-left: 20px; margin-top: 15px; display: grid; gap: 12px;">
-                        <li>Copy your live location from Google Maps</li>
-                        <li>Paste the link in the location field</li>
-                        <li>Enter customer's details</li>
-                        <li>Click "Generate WhatsApp Message"</li>
-                        <li>Click "Open WhatsApp to Send"</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>© 2023 DropLink | Professional Logistics Tool</p>
-            <p>Designed for riders and delivery services</p>
-        </footer>
+  <div class="container">
+    <header>
+      <div class="logo"><i class="fas fa-paper-plane"></i><span>DropLink</span></div>
+      <nav class="nav-links">
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-question-circle"></i> How It Works</a>
+        <a href="#"><i class="fas fa-dollar-sign"></i> Pricing</a>
+        <a href="#"><i class="fas fa-user"></i> Login</a>
+      </nav>
+    </header>
+    <section class="hero">
+      <h1>Share Your Live Location Instantly</h1>
+      <p>Empower riders with a sleek, one-click solution to share real-time locations via WhatsApp—boosting delivery speed and trust.</p>
+    </section>
+    <div class="app-container">
+      <div class="app-card">
+        <h2><i class="fas fa-map-marker-alt"></i> Delivery Info</h2>
+        <div class="input-group"><label for="location"><i class="fas fa-link"></i> Google Maps Live Link</label><input type="text" id="location" class="input-field" placeholder="https://maps.app.goo.gl/..." /><div id="locationValidation" class="validation-message"></div></div>
+        <div class="input-group"><label for="customerPhone"><i class="fas fa-phone"></i> Customer Phone</label><input type="tel" id="customerPhone" class="input-field" placeholder="e.g. 09012345678" /></div>
+        <button id="generateBtn" class="btn"><i class="fas fa-paper-plane"></i> Generate Message</button>
+      </div>
+      <div class="app-card">
+        <h2><i class="fas fa-eye"></i> Preview & Send</h2>
+        <div class="preview"><div id="messagePreview" style="white-space:pre-line;">📦 Hello [Name], your delivery is on the way!
+🚴 Track it live: [Link]
+👤 Rider: [Rider]
+🙏 Powered by DropLink</div></div>
+        <a id="whatsappButton" class="whatsapp-button" style="display:none;"><i class="fab fa-whatsapp"></i> Send via WhatsApp</a>
+        <div id="confirmation" class="confirmation" style="display:none;"><i class="fas fa-check-circle"></i> Message Sent!</div>
+      </div>
     </div>
+    <footer>© 2025 DropLink | A High-Tech Logistics Solution</footer>
+  </div>
 
-    <script>
-        // DOM Elements
-        const locationInput = document.getElementById('location');
-        const customerNameInput = document.getElementById('customerName');
-        const customerPhoneInput = document.getElementById('customerPhone');
-        const riderNameInput = document.getElementById('riderName');
-        const generateBtn = document.getElementById('generateBtn');
-        const messagePreview = document.getElementById('messagePreview');
-        const locationValidation = document.getElementById('locationValidation');
-        const whatsappButtonContainer = document.getElementById('whatsappButtonContainer');
-        const whatsappButton = document.getElementById('whatsappButton');
-        const confirmation = document.getElementById('confirmation');
-        
-        // Validate Google Maps link
-        function validateMapLink(link) {
-            if (link.startsWith("https://maps.app.goo.gl/") || link.includes("google.com/maps")) {
-                locationValidation.innerHTML = '<i class="fas fa-check-circle"></i> Valid Google Maps link';
-                locationValidation.className = 'validation-message validation-success';
-                return true;
-            } else {
-                locationValidation.innerHTML = '<i class="fas fa-times-circle"></i> Invalid Google Maps link';
-                locationValidation.className = 'validation-message validation-error';
-                return false;
-            }
-        }
-        
-        // Format phone number
-        function formatPhoneNumber(phone) {
-            let cleanPhone = phone.trim();
-            
-            if (cleanPhone.startsWith("0")) {
-                cleanPhone = "234" + cleanPhone.substring(1);
-            } else if (cleanPhone.startsWith("+")) {
-                cleanPhone = cleanPhone.substring(1);
-            } else if (!cleanPhone.startsWith("234")) {
-                cleanPhone = "234" + cleanPhone;
-            }
-            
-            return cleanPhone;
-        }
-        
-        // Generate WhatsApp message
-        function generateMessage() {
-            const location = locationInput.value.trim();
-            const customerName = customerNameInput.value.trim() || "Customer";
-            const customerPhone = customerPhoneInput.value.trim();
-            const riderName = riderNameInput.value.trim() || "Your Rider";
-            
-            // Validate inputs
-            if (!validateMapLink(location)) {
-                return;
-            }
-            
-            if (!customerPhone) {
-                alert('Please enter customer phone number');
-                customerPhoneInput.focus();
-                return;
-            }
-            
-            // Format phone number
-            const formattedPhone = formatPhoneNumber(customerPhone);
-            
-            // Build message
-            const message = `📦 Hello ${customerName}, your delivery is on the way!\n🚴 Track the rider live here: ${location}\n👤 Rider: ${riderName}\n🙏 Powered by DropLink`;
-            
-            // Update preview
-            messagePreview.textContent = message;
-            
-            // Encode message for URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Create WhatsApp URL
-            const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
-            
-            // Set button href
-            whatsappButton.href = whatsappUrl;
-            
-            // Show WhatsApp button
-            whatsappButtonContainer.style.display = 'block';
-            confirmation.style.opacity = '0';
-        }
-        
-        // Show confirmation when WhatsApp is opened
-        function showConfirmation() {
-            confirmation.style.opacity = '1';
-            
-            // Reset after 3 seconds
-            setTimeout(() => {
-                confirmation.style.opacity = '0';
-            }, 3000);
-            
-            // Prevent default to show animation before opening
-            setTimeout(() => {
-                window.open(whatsappButton.href, '_blank');
-            }, 800);
-            
-            return false;
-        }
-        
-        // Event Listeners
-        locationInput.addEventListener('input', function() {
-            if (this.value.trim() === '') {
-                locationValidation.innerHTML = '';
-                locationValidation.className = 'validation-message';
-            } else {
-                validateMapLink(this.value);
-            }
-        });
-        
-        generateBtn.addEventListener('click', generateMessage);
-        whatsappButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            showConfirmation();
-        });
-        
-        // Initialize with example data
-        window.onload = function() {
-            locationInput.value = "https://maps.app.goo.gl/examplelink";
-            customerNameInput.value = "John";
-            customerPhoneInput.value = "09012345678";
-            riderNameInput.value = "Musa";
-            validateMapLink(locationInput.value);
-        };
-    </script>
+  <script>
+    // PWA service worker registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+
+    const locInput = document.getElementById('location');
+    const phoneInput = document.getElementById('customerPhone');
+    const valMsg = document.getElementById('locationValidation');
+    const genBtn = document.getElementById('generateBtn');
+    const waBtn = document.getElementById('whatsappButton');
+    const msgPrev = document.getElementById('messagePreview');
+    const confirmEl = document.getElementById('confirmation');
+
+    function validateLink(url) {
+      const pattern = /^https:\/\/maps\.(app\.goo\.gl|google\.com\/maps)/;
+      const valid = pattern.test(url.trim());
+      valMsg.textContent = valid ? '✔️ Valid link' : '❌ Invalid link';
+      valMsg.className = 'validation-message ' + (valid ? 'validation-success' : 'validation-error');
+      return valid;
+    }
+
+    function formatPhone(phone) {
+      let num = phone.replace(/[^0-9+]/g, '');
+      if (num.startsWith('0')) num = '234' + num.slice(1);
+      if (num.startsWith('+')) num = num.slice(1);
+      return num;
+    }
+
+    function generate() {
+      if (!validateLink(locInput.value)) return;
+      if (!phoneInput.value) { phoneInput.focus(); return; }
+
+      const link = locInput.value.trim();
+      const phone = formatPhone(phoneInput.value.trim());
+      const message = `📦 Hello! Your delivery is on the way.\n🚴 Track live: ${link}\n🙏 Powered by DropLink`;
+
+      msgPrev.textContent = message;
+      waBtn.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      waBtn.style.display = 'block';
+      confirmEl.style.display = 'none';
+    }
+
+    genBtn.addEventListener('click', generate);
+    waBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.open(waBtn.href, '_blank');
+      confirmEl.style.display = 'block';
+      setTimeout(() => confirmEl.style.display = 'none', 3000);
+    });
+
+    locInput.addEventListener('input', () => {
+      if (!locInput.value) valMsg.textContent = '';
+      else validateLink(locInput.value);
+    });
+  </script>
 </body>
 </html>
+
