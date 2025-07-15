@@ -294,6 +294,48 @@
             }
         }
     </style>
+    <!-- Add this before </body> -->
+<script>
+  // Register SW
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+
+  // Install Prompt
+  let installPrompt;
+  const installBtn = document.createElement('button');
+  installBtn.textContent = 'Install App';
+  installBtn.classList.add('install-btn');
+  document.body.appendChild(installBtn);
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    installPrompt = e;
+    installBtn.style.display = 'block';
+  });
+
+  installBtn.addEventListener('click', () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    installPrompt = null;
+    installBtn.style.display = 'none';
+  });
+</script>
+
+<style>
+  .install-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    display: none;
+    z-index: 100;
+  }
+</style>
 </head>
 <body>
     <div class="container">
