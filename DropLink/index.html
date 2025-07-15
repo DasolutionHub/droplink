@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#25D366" />
+    <meta name="description" content="Instantly send your delivery location via WhatsApp with DropLink." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="DropLink" />
+
+    <link rel="manifest" href="/static/manifest.json" />
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>DropLink</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>DropLink</h1>
+      <input type="text" id="locationInput" placeholder="Paste Google Maps Link" />
+      <input type="text" id="phoneInput" placeholder="Enter Customer's Phone Number" />
+      <button onclick="generateWhatsApp()">Send via WhatsApp</button>
+      <p id="statusMessage"></p>
+    </div>
+    <script src="/script.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/static/sw.js')
+            .then(reg => console.log('Service Worker registered'))
+            .catch(err => console.error('Service Worker registration failed:', err));
+        });
+      }
+    </script>
+  </body>
+</html>
