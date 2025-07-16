@@ -106,16 +106,221 @@
     .how-section ul { list-style-type: disc; padding-left:20px; color:var(--text-light); }
     @keyframes fadeIn { to { opacity:1; } }
     footer { text-align:center; padding:30px 0; margin-top:auto; color:var(--text-dark); font-size:0.9rem; }
-    @media(max-width:768px){ .nav-links{ display:none; } }
+    
+    /* Add to Home Screen Banner */
+    #installBanner {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid var(--primary);
+      border-radius: var(--border-radius);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transition: opacity 0.5s ease, bottom 0.5s ease;
+    }
+    
+    #installBanner.show {
+      opacity: 1;
+      bottom: 30px;
+    }
+    
+    .banner-content {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .banner-icon {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+    
+    .banner-text h3 {
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+    
+    .banner-text p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    
+    .banner-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .banner-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .install-btn {
+      background: var(--primary);
+      color: #000;
+      border: none;
+    }
+    
+    .install-btn:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+    
+    .close-btn {
+      background: transparent;
+      color: var(--text-light);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .close-btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    @media(max-width:768px){ 
+      .nav-links{ display:none; } 
+      #installBanner {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      .banner-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+    
+    /* Installation instructions modal */
+    #installModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    #installModal.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .modal-content {
+      background: rgba(0,0,0,0.9);
+      border: 1px solid var(--primary);
+      border-radius: var(--border-radius);
+      max-width: 500px;
+      width: 90%;
+      padding: 30px;
+      position: relative;
+      text-align: center;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .modal-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    
+    .modal-title {
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    
+    .modal-steps {
+      text-align: left;
+      margin: 20px 0;
+    }
+    
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .step-number {
+      background: var(--primary);
+      color: #000;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .step-content h4 {
+      color: var(--primary-light);
+      margin-bottom: 5px;
+    }
+    
+    .step-content p {
+      color: var(--text-light);
+      margin: 0;
+      font-size: 0.95rem;
+    }
+    
+    .modal-btn {
+      background: var(--primary);
+      color: #000;
+      border: none;
+      padding: 12px 25px;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 15px;
+    }
+    
+    .modal-btn:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div class="logo">
-  <img src="https://raw.githubusercontent.com/DasolutionHub/droplink/main/logodroplink.png" alt="DropLink Logo" style="height:2rem; width:auto;">
-  <span>DropLink</span>
-</div>
+        <img src="https://raw.githubusercontent.com/DasolutionHub/droplink/main/logodroplink.png" alt="DropLink Logo" style="height:2rem; width:auto;">
+        <span>DropLink</span>
+      </div>
       <nav class="nav-links">
         <a onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
         <a id="howLink"><i class="fas fa-question-circle"></i> How It Works</a>
@@ -170,10 +375,75 @@
     </div>
     <footer>© 2025 DropLink | A High-Tech Logistics Solution</footer>
   </div>
+  
+  <!-- Add to Home Screen Banner -->
+  <div id="installBanner">
+    <div class="banner-content">
+      <div class="banner-icon">
+        <i class="fas fa-download"></i>
+      </div>
+      <div class="banner-text">
+        <h3>Install DropLink App</h3>
+        <p>Get the full experience with offline access</p>
+      </div>
+    </div>
+    <div class="banner-buttons">
+      <button id="installBtn" class="banner-btn install-btn">Install Now</button>
+      <button id="closeBanner" class="banner-btn close-btn">Not Now</button>
+    </div>
+  </div>
+  
+  <!-- Installation Instructions Modal -->
+  <div id="installModal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <div class="modal-icon">
+        <i class="fas fa-mobile-alt"></i>
+      </div>
+      <h2 class="modal-title">Install DropLink</h2>
+      <p>Follow these steps to install the app on your device:</p>
+      
+      <div class="modal-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Tap the Share Button</h4>
+            <p>Look for the share button in your browser's menu (usually at the top or bottom)</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Select "Add to Home Screen"</h4>
+            <p>Scroll through the options and choose "Add to Home Screen"</p>
+          </div>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Confirm Installation</h4>
+            <p>Tap "Add" in the top right corner to install the app</p>
+          </div>
+        </div>
+      </div>
+      
+      <button class="modal-btn" id="gotItBtn">Got It!</button>
+    </div>
+  </div>
 
   <script>
     // Register service worker
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js');
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(error => {
+          console.log('Service Worker registration failed:', error);
+        });
+    }
 
     // Elements
     const locInput = document.getElementById('location');
@@ -189,9 +459,20 @@
     const howLink = document.getElementById('howLink');
     const mainContent = document.getElementById('mainContent');
     const howSection = document.getElementById('howSection');
+    
+    // Add to Home Screen elements
+    const installBanner = document.getElementById('installBanner');
+    const installBtn = document.getElementById('installBtn');
+    const closeBanner = document.getElementById('closeBanner');
+    const installModal = document.getElementById('installModal');
+    const modalClose = document.querySelector('.modal-close');
+    const gotItBtn = document.getElementById('gotItBtn');
 
     // Navigation
-    howLink.addEventListener('click', () => { mainContent.style.display = 'none'; howSection.style.display = 'block'; });
+    howLink.addEventListener('click', () => { 
+      mainContent.style.display = 'none'; 
+      howSection.style.display = 'block'; 
+    });
 
     // Validation & Preview
     function validateLink(url) {
@@ -222,14 +503,99 @@
       const rider = riderInput.value.trim();
       const message = `📦 Hello ${customer}, your delivery is on the way!\n🚴 Track it live: ${link}\n👤 Rider: ${rider}\n🙏 Powered by DropLink`;
       msgPrev.textContent = message;
-      previewContainer.style.display = 'block'; confirmEl.style.opacity = '0';
+      previewContainer.style.display = 'block'; 
+      confirmEl.style.opacity = '0';
     });
 
     generateBtn.addEventListener('click', () => {
       const phone = formatPhone(phoneInput.value.trim());
       const text = encodeURIComponent(msgPrev.textContent);
       window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
-      confirmEl.style.opacity = '1'; setTimeout(() => confirmEl.style.opacity = '0', 3000);
+      confirmEl.style.opacity = '1'; 
+      setTimeout(() => confirmEl.style.opacity = '0', 3000);
+    });
+    
+    // Add to Home Screen functionality
+    let deferredPrompt;
+    
+    // Only show the banner if the app isn't installed
+    window.addEventListener('appinstalled', () => {
+      console.log('App installed successfully');
+      installBanner.classList.remove('show');
+      localStorage.setItem('droplink_installed', 'true');
+    });
+    
+    // Listen for beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      
+      // Check if the user already installed the app
+      if (localStorage.getItem('droplink_installed') === 'true') return;
+      
+      // Stash the event so it can be triggered later
+      deferredPrompt = e;
+      
+      // Show the install banner
+      setTimeout(() => {
+        installBanner.classList.add('show');
+      }, 3000);
+    });
+    
+    // Install button click handler
+    installBtn.addEventListener('click', () => {
+      // Hide the banner
+      installBanner.classList.remove('show');
+      
+      // Show the prompt
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+            localStorage.setItem('droplink_installed', 'true');
+          } else {
+            console.log('User dismissed the install prompt');
+            // Show installation instructions if user dismisses the prompt
+            installModal.classList.add('show');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        // Show installation instructions if deferredPrompt is not available
+        installModal.classList.add('show');
+      }
+    });
+    
+    // Close banner button
+    closeBanner.addEventListener('click', () => {
+      installBanner.classList.remove('show');
+      // Store dismissal in localStorage to not show again for a while
+      localStorage.setItem('installBannerDismissed', 'true');
+      setTimeout(() => {
+        installBanner.style.display = 'none';
+      }, 500);
+    });
+    
+    // Close modal handlers
+    modalClose.addEventListener('click', () => {
+      installModal.classList.remove('show');
+    });
+    
+    gotItBtn.addEventListener('click', () => {
+      installModal.classList.remove('show');
+    });
+    
+    // Check if banner was previously dismissed or app is installed
+    window.addEventListener('DOMContentLoaded', () => {
+      const isDismissed = localStorage.getItem('installBannerDismissed');
+      const isInstalled = localStorage.getItem('droplink_installed');
+      
+      if (isDismissed || isInstalled) {
+        installBanner.style.display = 'none';
+      }
     });
   </script>
 </body>
