@@ -17,8 +17,6 @@
   <style>
     :root {
       --bg-dark: #000;
-      --gradient-start: #001100;
-      --gradient-end: #004d00;
       --primary: #00ff88;
       --primary-light: #33ffaa;
       --text-light: #e0e0e0;
@@ -37,31 +35,39 @@
     }
     body::before {
       content:'';
-      position:fixed; top:0; left:0; width:100%; height:100%;
+      position:fixed; top:0; left:0; width:200%; height:200%;
       background-image: radial-gradient(rgba(0,255,100,0.2) 1px, transparent 1px);
       background-size:20px 20px;
+      animation: moveDots 20s linear infinite;
       pointer-events:none; z-index:0;
     }
-    .container {
-      position:relative; z-index:1;
-      max-width:1000px; width:100%; margin:0 auto; padding:20px;
-    }
+    @keyframes moveDots { from { background-position: 0 0; } to { background-position: -100px -100px; } }
+    .container { position:relative; z-index:1; max-width:1000px; width:100%; margin:0 auto; padding:20px; }
     header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; }
     .logo { display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.8rem; color:var(--primary); }
     .nav-links { display:flex; gap:25px; }
-    .nav-links a { text-decoration:none; color:var(--text-dark); font-weight:500; transition:var(--transition); }
+    .nav-links a { text-decoration:none; color:var(--text-dark); font-weight:500; transition:var(--transition); cursor:pointer; }
     .nav-links a:hover { color:var(--primary-light); }
     .hero { text-align:center; margin:40px 0; }
     .hero h1 {
-      font-size:3rem; line-height:1.2;
-      background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+      font-size:3.5rem;
+      line-height:1.2;
+      display:inline-block;
+      background: rgba(0,255,136,0.2);
+      color: var(--primary);
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      text-shadow: 0 4px 8px rgba(0,255,136,0.9), 0 0 30px rgba(0,255,136,0.7);
     }
-    .hero p { font-size:1.1rem; color:var(--text-dark); max-width:700px; margin:15px auto; }
-    .app-container { display:flex; gap:30px; flex-wrap:wrap; }
+    .hero p { font-size:1.2rem; color:var(--text-dark); max-width:700px; margin:15px auto; }
+    .app-container { display:flex; justify-content:center; }
     .app-card {
-      background:rgba(0,0,0,0.6); border-radius:var(--border-radius);
-      padding:30px; flex:1 1 45%; box-shadow:0 4px 20px rgba(0,0,0,0.8); transition:var(--transition);
+      background:rgba(0,0,0,0.6);
+      border-radius:var(--border-radius);
+      padding:30px;
+      width:100%; max-width:500px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.8);
+      transition:var(--transition);
     }
     .app-card:hover { transform:translateY(-5px); box-shadow:0 8px 30px rgba(0,0,0,1); }
     .app-card h2 { color:var(--primary); margin-bottom:20px; display:flex; align-items:center; gap:10px; font-weight:600; }
@@ -76,24 +82,24 @@
     .btn {
       background:var(--primary); color:#000; padding:14px 28px; font-size:1.1rem;
       font-weight:600; border:none; border-radius:var(--border-radius); cursor:pointer; transition:var(--transition);
+      width:100%; margin-top:10px;
     }
     .btn:hover { background:var(--primary-light); transform:translateY(-2px); }
-    .btn i { margin-right:8px; }
     .preview {
       background:rgba(255,255,255,0.05); border-left:4px solid var(--primary);
       padding:20px; border-radius:var(--border-radius); color:var(--text-light);
+      margin-top:20px;
     }
-    .whatsapp-button {
-      display:block; text-align:center; padding:14px; margin-top:20px; font-weight:600;
-      background:var(--primary); color:#000; text-decoration:none; border-radius:var(--border-radius); transition:var(--transition);
-    }
-    .whatsapp-button:hover { background:var(--primary-light); transform:translateY(-2px); }
     .validation-message { font-size:0.9rem; display:flex; align-items:center; gap:8px; }
     .validation-success { color:#22c55e; }
     .validation-error { color:#ef4444; }
-    .confirmation { margin-top:10px; font-weight:600; color:#22c55e; }
+    .confirmation { margin-top:10px; font-weight:600; color:#22c55e; opacity:0; animation: fadeIn 0.5s forwards; }
+    .how-section { display:none; padding:30px; background:rgba(0,0,0,0.6); border-radius:var(--border-radius); }
+    .how-section h2 { color:var(--primary); font-size:2rem; margin-bottom:15px; }
+    .how-section ul { list-style-type: disc; padding-left:20px; color:var(--text-light); }
+    @keyframes fadeIn { to { opacity:1; } }
     footer { text-align:center; padding:30px 0; margin-top:auto; color:var(--text-dark); font-size:0.9rem; }
-    @media(max-width:768px){ .app-card{ flex:1 1 100%; } .nav-links{ display:none; } }
+    @media(max-width:768px){ .nav-links{ display:none; } }
   </style>
 </head>
 <body>
@@ -101,50 +107,83 @@
     <header>
       <div class="logo"><i class="fas fa-paper-plane"></i><span>DropLink</span></div>
       <nav class="nav-links">
-        <a href="#"><i class="fas fa-home"></i> Home</a>
-        <a href="#"><i class="fas fa-question-circle"></i> How It Works</a>
-        <a href="#"><i class="fas fa-dollar-sign"></i> Pricing</a>
-        <a href="#"><i class="fas fa-user"></i> Login</a>
+        <a onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
+        <a id="howLink"><i class="fas fa-question-circle"></i> How It Works</a>
       </nav>
     </header>
-    <section class="hero">
-      <h1>Share Your Live Location Instantly</h1>
-      <p>Empower riders with a sleek, one-click solution to share real-time locations via WhatsApp—boosting delivery speed and trust.</p>
-    </section>
-    <div class="app-container">
-      <div class="app-card">
-        <h2><i class="fas fa-map-marker-alt"></i> Delivery Info</h2>
-        <div class="input-group"><label for="location"><i class="fas fa-link"></i> Google Maps Live Link</label><input type="text" id="location" class="input-field" placeholder="https://maps.app.goo.gl/..." /><div id="locationValidation" class="validation-message"></div></div>
-        <div class="input-group"><label for="customerPhone"><i class="fas fa-phone"></i> Customer Phone</label><input type="tel" id="customerPhone" class="input-field" placeholder="e.g. 09012345678" /></div>
-        <button id="generateBtn" class="btn"><i class="fas fa-paper-plane"></i> Generate Message</button>
+    <!-- Main Content -->
+    <div id="mainContent">
+      <section class="hero">
+        <h1>Share Your Live Location Instantly</h1>
+        <p>Empower riders with a sleek, one-click solution to share real-time locations via WhatsApp—boosting delivery speed and trust.</p>
+      </section>
+      <div class="app-container">
+        <div class="app-card">
+          <h2><i class="fas fa-map-marker-alt"></i> Delivery Info</h2>
+          <div class="input-group">
+            <label for="location"><i class="fas fa-link"></i> Google Maps Live Link</label>
+            <input type="text" id="location" class="input-field" placeholder="https://maps.app.goo.gl/...">
+            <div id="locationValidation" class="validation-message"></div>
+          </div>
+          <div class="input-group">
+            <label for="customerName"><i class="fas fa-user"></i> Customer Name</label>
+            <input type="text" id="customerName" class="input-field" placeholder="e.g. John Doe">
+          </div>
+          <div class="input-group">
+            <label for="customerPhone"><i class="fas fa-phone"></i> Customer Phone</label>
+            <input type="tel" id="customerPhone" class="input-field" placeholder="e.g. 09012345678">
+          </div>
+          <div class="input-group">
+            <label for="riderName"><i class="fas fa-motorcycle"></i> Rider Name</label>
+            <input type="text" id="riderName" class="input-field" placeholder="e.g. Musa">
+          </div>
+          <button id="previewBtn" class="btn"><i class="fas fa-eye"></i> Preview Message</button>
+
+          <div id="previewContainer" class="preview" style="display:none;">
+            <div id="messagePreview" style="white-space:pre-line;"></div>
+            <button id="generateBtn" class="btn" style="margin-top:15px;"><i class="fas fa-paper-plane"></i> Generate Message Now</button>
+            <div id="confirmation" class="confirmation"><i class="fas fa-check-circle"></i> Message Sent!</div>
+          </div>
+        </div>
       </div>
-      <div class="app-card">
-        <h2><i class="fas fa-eye"></i> Preview & Send</h2>
-        <div class="preview"><div id="messagePreview" style="white-space:pre-line;">📦 Hello [Name], your delivery is on the way!
-🚴 Track it live: [Link]
-👤 Rider: [Rider]
-🙏 Powered by DropLink</div></div>
-        <a id="whatsappButton" class="whatsapp-button" style="display:none;"><i class="fab fa-whatsapp"></i> Send via WhatsApp</a>
-        <div id="confirmation" class="confirmation" style="display:none;"><i class="fas fa-check-circle"></i> Message Sent!</div>
-      </div>
+    </div>
+    <!-- How It Works Section -->
+    <div id="howSection" class="how-section container">
+      <h2>How DropLink Works</h2>
+      <ul>
+        <li>Copy your live location link from Google Maps.</li>
+        <li>Paste it into the "Google Maps Live Link" field.</li>
+        <li>Enter the customer’s name and phone number, and the rider’s name.</li>
+        <li>Click "Preview Message" to see the formatted text.</li>
+        <li>Click "Generate Message Now" to open WhatsApp with the message ready to send.</li>
+      </ul>
     </div>
     <footer>© 2025 DropLink | A High-Tech Logistics Solution</footer>
   </div>
 
   <script>
-    // PWA service worker registration
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js');
-    }
+    // Register service worker
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js');
 
+    // Elements
     const locInput = document.getElementById('location');
+    const nameInput = document.getElementById('customerName');
     const phoneInput = document.getElementById('customerPhone');
+    const riderInput = document.getElementById('riderName');
     const valMsg = document.getElementById('locationValidation');
-    const genBtn = document.getElementById('generateBtn');
-    const waBtn = document.getElementById('whatsappButton');
+    const previewBtn = document.getElementById('previewBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    const previewContainer = document.getElementById('previewContainer');
     const msgPrev = document.getElementById('messagePreview');
     const confirmEl = document.getElementById('confirmation');
+    const howLink = document.getElementById('howLink');
+    const mainContent = document.getElementById('mainContent');
+    const howSection = document.getElementById('howSection');
 
+    // Navigation
+    howLink.addEventListener('click', () => { mainContent.style.display = 'none'; howSection.style.display = 'block'; });
+
+    // Validation & Preview
     function validateLink(url) {
       const pattern = /^https:\/\/maps\.(app\.goo\.gl|google\.com\/maps)/;
       const valid = pattern.test(url.trim());
@@ -160,33 +199,26 @@
       return num;
     }
 
-    function generate() {
-      if (!validateLink(locInput.value)) return;
-      if (!phoneInput.value) { phoneInput.focus(); return; }
-
+    previewBtn.addEventListener('click', () => {
+      if (!validateLink(locInput.value) || !nameInput.value.trim() || !phoneInput.value.trim() || !riderInput.value.trim()) return;
       const link = locInput.value.trim();
-      const phone = formatPhone(phoneInput.value.trim());
-      const message = `📦 Hello! Your delivery is on the way.\n🚴 Track live: ${link}\n🙏 Powered by DropLink`;
-
+      const customer = nameInput.value.trim();
+      const rider = riderInput.value.trim();
+      const message = `📦 Hello ${customer}, your delivery is on the way!\n🚴 Track it live: ${link}\n👤 Rider: ${rider}\n🙏 Powered by DropLink`;
       msgPrev.textContent = message;
-      waBtn.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-      waBtn.style.display = 'block';
-      confirmEl.style.display = 'none';
-    }
-
-    genBtn.addEventListener('click', generate);
-    waBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      window.open(waBtn.href, '_blank');
-      confirmEl.style.display = 'block';
-      setTimeout(() => confirmEl.style.display = 'none', 3000);
+      previewContainer.style.display = 'block'; confirmEl.style.opacity = '0';
     });
 
-    locInput.addEventListener('input', () => {
-      if (!locInput.value) valMsg.textContent = '';
-      else validateLink(locInput.value);
+    generateBtn.addEventListener('click', () => {
+      const phone = formatPhone(phoneInput.value.trim());
+      const text = encodeURIComponent(msgPrev.textContent);
+      window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+      confirmEl.style.opacity = '1'; setTimeout(() => confirmEl.style.opacity = '0', 3000);
     });
+
+    locInput.addEventListener('input', () => { valMsg.textContent = ''; });
   </script>
 </body>
 </html>
+
 
