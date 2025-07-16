@@ -88,51 +88,34 @@
     .preview {
       background:rgba(255,255,255,0.05); border-left:4px solid var(--primary);
       padding:20px; border-radius:var(--border-radius); color:var(--text-light);
-      margin-top:20px; word-break:break-word;
+      margin-top:20px;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
-    #messagePreview { white-space: pre-line; word-break:break-word; }
+    #messagePreview {
+      white-space: pre-line;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
     .validation-message { font-size:0.9rem; display:flex; align-items:center; gap:8px; }
     .validation-success { color:#22c55e; }
     .validation-error { color:#ef4444; }
-    .confirmation { margin-top:10px; font-weight:600; color:#22c55e; opacity:0; animation:fadeIn 0.5s forwards; }
+    .confirmation { margin-top:10px; font-weight:600; color:#22c55e; opacity:0; animation: fadeIn 0.5s forwards; }
     .how-section { display:none; padding:30px; background:rgba(0,0,0,0.6); border-radius:var(--border-radius); }
     .how-section h2 { color:var(--primary); font-size:2rem; margin-bottom:15px; }
-    .how-section ul { list-style:disc; padding-left:20px; color:var(--text-light); }
+    .how-section ul { list-style-type: disc; padding-left:20px; color:var(--text-light); }
     @keyframes fadeIn { to { opacity:1; } }
     footer { text-align:center; padding:30px 0; margin-top:auto; color:var(--text-dark); font-size:0.9rem; }
     @media(max-width:768px){ .nav-links{ display:none; } }
-
-    /* Install prompt styles */
-    #installPrompt {
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 20px;
-      background: rgba(0,0,0,0.7);
-      border: 1px solid var(--primary);
-      border-radius: var(--border-radius);
-      opacity: 0;
-      transition: opacity .4s ease;
-    }
-    #installPrompt.visible {
-      display: flex;
-      opacity: 1;
-    }
-    #installPrompt img { width:48px; height:48px; border-radius:12px; }
-    #installPrompt .info { flex:1; margin-left:15px; color:var(--text-light); }
-    #installPrompt .info p { margin:0 0 4px; }
-    #installPrompt .install-btn { background:var(--primary); color:#000; padding:10px 16px; border:none; border-radius:var(--border-radius); cursor:pointer; }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div class="logo">
-        <img src="https://raw.githubusercontent.com/DasolutionHub/droplink/main/logodroplink.png" alt="DropLink Logo" style="height:2rem; width:auto;">
-        <span>DropLink</span>
-      </div>
+  <img src="https://raw.githubusercontent.com/DasolutionHub/droplink/main/logodroplink.png" alt="DropLink Logo" style="height:2rem; width:auto;">
+  <span>DropLink</span>
+</div>
       <nav class="nav-links">
         <a onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
         <a id="howLink"><i class="fas fa-question-circle"></i> How It Works</a>
@@ -187,42 +170,22 @@
     </div>
     <footer>© 2025 DropLink | A High-Tech Logistics Solution</footer>
   </div>
-    <!-- Install Prompt -->
-    <div id="installPrompt" style="display:none;">
-      <img src="https://raw.githubusercontent.com/DasolutionHub/droplink/main/icons/icon-192.png" alt="DropLink Icon">
-      <div class="info">
-        <p><strong>Install DropLink</strong> for quick access!</p>
-        <small>Tap "Install" to add to your home screen.</small>
-      </div>
-      <button id="installBtn" class="install-btn">Install</button>
-    </div>
-  </div>
 
-  <!-- Step 2: JS to trigger animation on load -->
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('.app-card').classList.add('visible');
-    });
-
     // Register service worker
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js');
 
-    // PWA install prompt handling
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('installPrompt').classList.add('visible');
-    });
-    document.getElementById('installBtn').addEventListener('click', async () => {
-      document.getElementById('installPrompt').classList.remove('visible');
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      deferredPrompt = null;
-    });
-
     // Elements
+    const locInput = document.getElementById('location');
+    const nameInput = document.getElementById('customerName');
+    const phoneInput = document.getElementById('customerPhone');
+    const riderInput = document.getElementById('riderName');
+    const valMsg = document.getElementById('locationValidation');
+    const previewBtn = document.getElementById('previewBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    const previewContainer = document.getElementById('previewContainer');
+    const msgPrev = document.getElementById('messagePreview');
+    const confirmEl = document.getElementById('confirmation');
     const howLink = document.getElementById('howLink');
     const mainContent = document.getElementById('mainContent');
     const howSection = document.getElementById('howSection');
@@ -246,6 +209,7 @@
       return num;
     }
 
+    // Immediate validation on input/paste
     locInput.addEventListener('input', () => {
       if (locInput.value.trim()) validateLink(locInput.value);
       else valMsg.textContent = '';
@@ -254,6 +218,22 @@
     previewBtn.addEventListener('click', () => {
       if (!validateLink(locInput.value) || !nameInput.value.trim() || !phoneInput.value.trim() || !riderInput.value.trim()) return;
       const link = locInput.value.trim();
+      const customer = nameInput.value.trim();
+      const rider = riderInput.value.trim();
+      const message = `📦 Hello ${customer}, your delivery is on the way!\n🚴 Track it live: ${link}\n👤 Rider: ${rider}\n🙏 Powered by DropLink`;
+      msgPrev.textContent = message;
+      previewContainer.style.display = 'block'; confirmEl.style.opacity = '0';
+    });
+
+    generateBtn.addEventListener('click', () => {
+      const phone = formatPhone(phoneInput.value.trim());
+      const text = encodeURIComponent(msgPrev.textContent);
+      window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+      confirmEl.style.opacity = '1'; setTimeout(() => confirmEl.style.opacity = '0', 3000);
+    });
+  </script>
+</body>
+</html>
 
 
 
