@@ -89,6 +89,13 @@
       background:rgba(255,255,255,0.05); border-left:4px solid var(--primary);
       padding:20px; border-radius:var(--border-radius); color:var(--text-light);
       margin-top:20px;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    #messagePreview {
+      white-space: pre-line;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
     .validation-message { font-size:0.9rem; display:flex; align-items:center; gap:8px; }
     .validation-success { color:#22c55e; }
@@ -140,7 +147,7 @@
           <button id="previewBtn" class="btn"><i class="fas fa-eye"></i> Preview Message</button>
 
           <div id="previewContainer" class="preview" style="display:none;">
-            <div id="messagePreview" style="white-space:pre-line;"></div>
+            <div id="messagePreview"></div>
             <button id="generateBtn" class="btn" style="margin-top:15px;"><i class="fas fa-paper-plane"></i> Generate Message Now</button>
             <div id="confirmation" class="confirmation"><i class="fas fa-check-circle"></i> Message Sent!</div>
           </div>
@@ -199,6 +206,12 @@
       return num;
     }
 
+    // Immediate validation on input/paste
+    locInput.addEventListener('input', () => {
+      if (locInput.value.trim()) validateLink(locInput.value);
+      else valMsg.textContent = '';
+    });
+
     previewBtn.addEventListener('click', () => {
       if (!validateLink(locInput.value) || !nameInput.value.trim() || !phoneInput.value.trim() || !riderInput.value.trim()) return;
       const link = locInput.value.trim();
@@ -215,10 +228,9 @@
       window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
       confirmEl.style.opacity = '1'; setTimeout(() => confirmEl.style.opacity = '0', 3000);
     });
-
-    locInput.addEventListener('input', () => { valMsg.textContent = ''; });
   </script>
 </body>
 </html>
+
 
 
